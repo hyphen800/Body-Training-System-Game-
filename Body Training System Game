@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Training & Combat Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #222; color: white; }
+        .container { max-width: 500px; margin: auto; padding: 20px; border-radius: 10px; background: #333; }
+        button { padding: 10px; margin: 5px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+        .stats { margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>🔥 Body Training & Combat Game 🔥</h2>
+        <p>Train, fight, and grow stronger every week!</p>
+
+        <div class="stats">
+            <p>💪 Strength: <span id="strength">10</span></p>
+            <p>🏃 Stamina: <span id="stamina">10</span></p>
+            <p>⚡ Agility: <span id="agility">10</span></p>
+            <p>🗡 Combat: <span id="combat">10</span></p>
+            <p>🔋 Energy: <span id="energy">100</span></p>
+            <p>📆 Week: <span id="week">1</span></p>
+        </div>
+
+        <button onclick="train('strength')">💪 Train Strength</button>
+        <button onclick="train('stamina')">🏃 Train Stamina</button>
+        <button onclick="train('agility')">⚡ Train Agility</button>
+        <button onclick="train('combat')">🗡 Train Combat</button>
+        <button onclick="fight()">⚔️ Enter Combat</button>
+        <button onclick="nextWeek()">⏭️ Next Week</button>
+
+        <p id="message"></p>
+    </div>
+
+    <script>
+        let stats = {
+            strength: 10,
+            stamina: 10,
+            agility: 10,
+            combat: 10,
+            energy: 100,
+            week: 1
+        };
+
+        function updateStats() {
+            document.getElementById('strength').textContent = stats.strength;
+            document.getElementById('stamina').textContent = stats.stamina;
+            document.getElementById('agility').textContent = stats.agility;
+            document.getElementById('combat').textContent = stats.combat;
+            document.getElementById('energy').textContent = stats.energy;
+            document.getElementById('week').textContent = stats.week;
+        }
+
+        function train(type) {
+            if (stats.energy >= 10) {
+                stats[type] += Math.floor(Math.random() * 5) + 1; // Random improvement
+                stats.energy -= 10;
+                showMessage(`✅ You trained ${type} and gained power!`);
+            } else {
+                showMessage("❌ Not enough energy! Rest or fight.");
+            }
+            updateStats();
+        }
+
+        function fight() {
+            let enemyPower = stats.week * 10 + Math.floor(Math.random() * 10);
+            let playerPower = stats.combat + stats.strength + stats.agility;
+
+            if (playerPower > enemyPower) {
+                stats.combat += Math.floor(Math.random() * 5) + 2;
+                showMessage(`🥇 You won the fight! Combat power increased.`);
+            } else {
+                showMessage("💀 You lost! Train harder.");
+            }
+            stats.energy -= 20;
+            updateStats();
+        }
+
+        function nextWeek() {
+            stats.week++;
+            stats.energy = 100;  // Restore energy every week
+            stats.strength += 2; // Passive growth
+            stats.stamina += 2;
+            stats.agility += 2;
+            stats.combat += 2;
+            showMessage("📆 A new week begins! Training and battles get tougher!");
+            updateStats();
+        }
+
+        function showMessage(msg) {
+            document.getElementById('message').textContent = msg;
+        }
+
+        updateStats();
+    </script>
+
+</body>
+</html>
